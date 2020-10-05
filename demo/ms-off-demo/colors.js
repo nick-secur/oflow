@@ -35,3 +35,8 @@ function getDirectionalColor(x, y) {
     var hue = (Math.atan2(y, x) * toDegree + 360) % 360;
     return convertHsvToRgb(hue, 1, 1);
 }
+
+// todo temporarily disableed for viz dev
+// function getDirectionalColor(x, y) {
+//     return 'rgba( 255, 255, 255, 255 )';
+// }

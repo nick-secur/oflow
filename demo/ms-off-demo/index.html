@@ -4,7 +4,7 @@
     <style type="text/css">
 
         canvas {
-            background-color: grey;
+            background-color: black;
         }
 
         video {
@@ -12,12 +12,21 @@
         }
 
     </style>
-    <script type="text/javascript" src="colors.js"></script>
+    <script type="text/javascript" src="./colors.js"></script>
     <script type="text/javascript" src="../../dist/oflow.js"></script>
-
     <script type="text/javascript">
     function main() {
-        var zoneSize = 4,
+        var
+
+            // parameterize zone size. the zone determines step size for comparisons.
+            // Larger steps means fewer zones ...
+            // Larger steps SEEM better at discriminating motion for mailsecur video ...
+
+            // todo: next add in tracking
+
+            zoneSize = 32,
+            //zoneSize = 4,
+
             videoElement = document.getElementById('videoOut'),
             videoWidth = videoElement.videoWidth,
             videoHeight = videoElement.videoHeight,
@@ -28,17 +37,54 @@
 
         var videoFlow = new oflow.VideoFlow( videoElement, zoneSize );
 
-        videoFlow.onCalculated( function (direciton) {
-            // render zones
-            sceneCtx.clearRect(0, 0, sceneWidth, sceneHeight);
-            for(var i = 0; i < direciton.zones.length; ++i) {
-                var zone = direciton.zones[i];
-                sceneCtx.strokeStyle =  getDirectionalColor(zone.u, zone.v);
-                sceneCtx.beginPath();
-                sceneCtx.moveTo(zone.x,zone.y);
-                sceneCtx.lineTo((zone.x - zone.u), zone.y + zone.v);
-                sceneCtx.stroke();
+        videoFlow.onCalculated( function (direction) {
+
+            /**
+             * render zones as vectors...
+             */
+            function renderZonesAsVectors()  {
+                for(var i = 0; i < direction.zones.length; ++i) {
+                    var zone = direction.zones[i];
+                    sceneCtx.strokeStyle =  getDirectionalColor(zone.u, zone.v);
+                    sceneCtx.beginPath();
+                    sceneCtx.moveTo(zone.x,zone.y);
+                    sceneCtx.lineTo((zone.x - zone.u), zone.y + zone.v);
+                    sceneCtx.stroke();
+                }
             }
+
+            function getVectorMagnitude( zone ) {
+                return ( Math.sqrt( (zone.u * zone.u) + (zone.v * zone.v) ) );
+            }
+
+            // todo:  try a denoise filter and see if it improves areas of detected movements ...
+
+            /**
+             * heuristic 1: only render a zone if it's vector magnitude exceeds threshold
+             */
+            function doRender( zone ) {
+                const THRESHOLD = 5;
+                let magnitude = getVectorMagnitude(zone);
+                return( magnitude > THRESHOLD );
+            }
+
+            function renderZonesAsPixels()  {
+                for(var i = 0; i < direction.zones.length; ++i) {
+                    var zone = direction.zones[i];
+                    if( doRender( zone ) ) {
+                        sceneCtx.fillStyle =  getDirectionalColor(zone.u, zone.v);
+                        sceneCtx.beginPath();
+                        sceneCtx.rect( zone.x, zone.y, 3, 3);
+                        sceneCtx.fill();
+                    }
+                }
+            }
+
+            sceneCtx.clearRect(0, 0, sceneWidth, sceneHeight);
+            // render zones
+            renderZonesAsPixels();
+            // renderZonesAsVectors();
+
         });
         videoFlow.startCapture();
     }
@@ -46,11 +92,20 @@
 </head>
 <body onload="main()" >
 
+<!--src="./video/3DimensionalBox.mp4"-->
+<!--src="./video/3MinuteLiquidVideo.mp4"-->
+<!--src="./video/CenterWaves.mp4"-->
+<!--src="./video/ms_fluid_mov.mp4"-->
+<!--src="./video/ms_liquid_mov.mp4"-->
+<!--src="./video/LotteThatSilhouetteGirl_1920x1080_Clip01.mp4"-->
+
     <div >
         <video id='videoOut'
                width=384
                height=288
-               src="./video/ms_liquid_mov.mp4"
+
+               src="./video/3DimensionalBox.mp4"
+
                controls=true
         ></video>
     </div>

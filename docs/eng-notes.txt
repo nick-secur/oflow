@@ -1,0 +1,52 @@
+OFF Analysis Notes
+
+The algororithm divides the visual field into zones based on step size. The step size determines the stride over the pixel array.
+
+- The larger the step size the fewer the zones.
+
+- It seems the algorithm does better on mailsecur video with larger step size (c.f., 32 vs. 4). Maybe because of limited color information?
+
+
+Fluid/Powder motion detection heuristics
+
+Heuristic 1
+  a. compute the vector magnitude for each zone
+  b. only render/add a zone if it exceeds a threshold
+
+UI strategies
+
+  a. show a warning light when motion exceeds threshold...
+
+  b. Overlays
+    (1) try to relate color to direction of movement detected
+    (2) only render when motion threshold is exceeded...
+
+  c. tracking
+    (1) try to show a tracking indicator (needle) with the overall direction of movement being shown...
+    (2) ...
+
+
+This buys us...
+
+1. AT THE VERY LEAST you have basic motion detection. This in itself is useful to us (counting scans, detect system in use, etc... )
+
+2. The problem is RELATIVE motion detection (which I still think we can get...)
+
+
+NEXT STEPS
+
+1. Try to apply filters (denoise, color, etc.)
+
+2. PHASE TWO: more senstive motion algorithms (look for lucas kanade with pyramids) ...
+
+
+COMPELLING VIDEOS
+
+1. Empty container (slight movement) vs. fluid container (more movement)
+
+2. Powders and crystals...
+
+3. chips/cards ...
+
+3. ...
+
