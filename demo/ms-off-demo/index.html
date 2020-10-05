@@ -1,0 +1,65 @@
+<html>
+<head>
+    <title>Optical flow detection in JavaScript</title>
+    <style type="text/css">
+
+        canvas {
+            background-color: grey;
+        }
+
+        video {
+            background-color: blue;
+        }
+
+    </style>
+    <script type="text/javascript" src="colors.js"></script>
+    <script type="text/javascript" src="../../dist/oflow.js"></script>
+
+    <script type="text/javascript">
+    function main() {
+        var zoneSize = 4,
+            videoElement = document.getElementById('videoOut'),
+            videoWidth = videoElement.videoWidth,
+            videoHeight = videoElement.videoHeight,
+            canvas = document.getElementById('scene'),
+            sceneCtx = canvas.getContext('2d'),
+            sceneWidth = canvas.width,
+            sceneHeight = canvas.height;
+
+        var videoFlow = new oflow.VideoFlow( videoElement, zoneSize );
+
+        videoFlow.onCalculated( function (direciton) {
+            // render zones
+            sceneCtx.clearRect(0, 0, sceneWidth, sceneHeight);
+            for(var i = 0; i < direciton.zones.length; ++i) {
+                var zone = direciton.zones[i];
+                sceneCtx.strokeStyle =  getDirectionalColor(zone.u, zone.v);
+                sceneCtx.beginPath();
+                sceneCtx.moveTo(zone.x,zone.y);
+                sceneCtx.lineTo((zone.x - zone.u), zone.y + zone.v);
+                sceneCtx.stroke();
+            }
+        });
+        videoFlow.startCapture();
+    }
+    </script>
+</head>
+<body onload="main()" >
+
+    <div >
+        <video id='videoOut'
+               width=384
+               height=288
+               src="./video/ms_liquid_mov.mp4"
+               controls=true
+        ></video>
+    </div>
+    <div>
+        <canvas id='scene'
+                width=384
+                height=288 ></canvas>
+    </div>
+
+
+</body>
+</html>
