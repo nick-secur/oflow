@@ -1,0 +1,13 @@
+====
+Commands
+----
+ffmpeg convert avi to mp4
+  ffmpeg -i pt_02.avi pt_02.mp4
+
+
+====
+Resources
+
+FFMPEG convert avi to mp4
+  https://unix.stackexchange.com/questions/35746/encode-with-ffmpeg-using-avi-to-mp4
+
