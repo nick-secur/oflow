@@ -34,7 +34,8 @@
             canvas = document.getElementById('scene'),
             sceneCtx = canvas.getContext('2d'),
             sceneWidth = canvas.width,
-            sceneHeight = canvas.height;
+            sceneHeight = canvas.height,
+            flowCanvas = document.getElementById('flow-vector');
 
         var videoFlow = new oflow.VideoFlow( videoElement, zoneSize );
 
@@ -81,10 +82,36 @@
                 }
             }
 
+            function renderFlowVector() {
+
+
+                let flowVectorCtx = flowCanvas.getContext('2d'),
+                    flowVectorW = flowCanvas.width,
+                    flowVectorH = flowCanvas.height;
+
+                let origin = {
+                    x: flowVectorW / 2,
+                    y: flowVectorH / 2
+                };
+
+                flowVectorCtx.clearRect(0, 0, flowVectorW, flowVectorH);
+
+                // drawLine (0, 0, u, v)
+                flowVectorCtx.strokeStyle =  getDirectionalColor(direction.u, direction.v);
+                flowVectorCtx.beginPath();
+                flowVectorCtx.moveTo( origin.x, origin.y );
+                flowVectorCtx.lineTo( (origin.x - (100 * direction.u) ), (origin.y + (100* direction.v)) );
+                flowVectorCtx.stroke();
+
+
+            }
+
             sceneCtx.clearRect(0, 0, sceneWidth, sceneHeight);
             // render zones
             renderZonesAsPixels();
             // renderZonesAsVectors();
+
+            renderFlowVector();
 
         });
         videoFlow.startCapture();
@@ -106,7 +133,7 @@
                width=384
                height=288
 
-               src="./video/pt_02.mp4"
+               src="./video/3DimensionalBox.mp4"
 
                controls=true
         ></video>
@@ -115,6 +142,12 @@
         <canvas id='scene'
                 width=384
                 height=288 ></canvas>
+    </div>
+
+    <div>
+        <canvas id='flow-vector'
+                width=100
+                height=100 ></canvas>
     </div>
 
 
