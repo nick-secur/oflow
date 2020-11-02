@@ -2,15 +2,12 @@
 <head>
     <title>Optical flow detection in JavaScript</title>
     <style type="text/css">
-
         canvas {
             background-color: black;
         }
-
         video {
             background-color: blue;
         }
-
     </style>
     <script type="text/javascript" src="./colors.js"></script>
     <script type="text/javascript" src="../../dist/oflow.js"></script>
@@ -20,17 +17,14 @@
 
             // parameterize zone size. the zone determines step size for comparisons.
             // Larger steps means fewer zones ...
-            // Larger steps SEEM better at discriminating motion for mailsecur video ...
-
-            // todo: next add in tracking
 
             //zoneSize = 32,
-            //zoneSize   = 8,
+            //zoneSize = 8,
             zoneSize = 4,
 
             videoElement = document.getElementById('videoOut'),
-            videoWidth = videoElement.videoWidth,
-            videoHeight = videoElement.videoHeight,
+            videoWidth   = videoElement.videoWidth,
+            videoHeight  = videoElement.videoHeight,
             canvas = document.getElementById('scene'),
             sceneCtx = canvas.getContext('2d'),
             sceneWidth = canvas.width,
@@ -83,36 +77,27 @@
             }
 
             function renderFlowVector() {
-
-
                 let flowVectorCtx = flowCanvas.getContext('2d'),
                     flowVectorW = flowCanvas.width,
                     flowVectorH = flowCanvas.height;
-
                 let origin = {
                     x: flowVectorW / 2,
                     y: flowVectorH / 2
                 };
-
                 flowVectorCtx.clearRect(0, 0, flowVectorW, flowVectorH);
-
                 // drawLine (0, 0, u, v)
                 flowVectorCtx.strokeStyle =  getDirectionalColor(direction.u, direction.v);
                 flowVectorCtx.beginPath();
                 flowVectorCtx.moveTo( origin.x, origin.y );
                 flowVectorCtx.lineTo( (origin.x - (100 * direction.u) ), (origin.y + (100* direction.v)) );
                 flowVectorCtx.stroke();
-
-
             }
 
             sceneCtx.clearRect(0, 0, sceneWidth, sceneHeight);
             // render zones
-            renderZonesAsPixels();
-            // renderZonesAsVectors();
-
+            // renderZonesAsPixels();
+            renderZonesAsVectors();
             renderFlowVector();
-
         });
         videoFlow.startCapture();
     }
@@ -126,6 +111,7 @@
 <!--src="./video/ms_fluid_mov.mp4"-->
 <!--src="./video/ms_liquid_mov.mp4"-->
 <!--src="./video/powder_test_01_7gSaltInBagInEnv.mp4"-->
+<!--src="./video/pt_02.mp4"-->
 <!--src="./video/LotteThatSilhouetteGirl_1920x1080_Clip01.mp4"-->
 
     <div >
@@ -133,7 +119,7 @@
                width=384
                height=288
 
-               src="./video/3DimensionalBox.mp4"
+               src="./video/powder_test_01_7gSaltInBagInEnv.mp4"
 
                controls=true
         ></video>
@@ -149,7 +135,6 @@
                 width=100
                 height=100 ></canvas>
     </div>
-
 
 </body>
 </html>

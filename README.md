@@ -1,52 +1,64 @@
-oflow.js - optical flow detection in JavaScript
+oflow.js - optical flow detection in JavaScript: An Implementation of the Lucas Kanade Algorithm
 ===============================================
-I made this little toy just for fun when I was traveling and had really long flight.
-The library allows you to detect optical flow in a video.
 
-Here is an [optical flow detection demo](https://anvaka.github.com/oflow/demo/raw/index.html)
-which lets you to control a ball and see movements in each zone of the video.
+At the heart of this demo is a javascript implementation of the Lucas -- Kanade algorithm for estimating optical flow.
 
-And this little [Ping Pong game](https://anvaka.github.com/oflow/demo/pingpong/index.html)
-was also created on a plane. Right bar is controlled by the webcamera. Move your
-hand slowly up and down, to change the position of the right bar. Just move your
-hands slowly do it gradually. Left bar is controlled by computer.
+----
+## Setup
 
-I didn't have time to do the 'tutorial' or proper error handling, I'm sorry if
-it wouldn't work for you. Please [let me know](mailto:anvaka@gmail.com).
+1. Clone the repo.
 
-Usage
------
-Include [/dist/oflow.js](https://github.com/anvaka/oflow/blob/master/dist/oflow.js) into your page.
+2. Run `npm install` .
 
-To detect flow from the webcamera:
-
+3. Build the distributable script (`/dist/oflow.js`):
 ```javascript
-var flow = new oflow.WebCamFlow();
-// Every time when optical flow is calculated
-// call the passed in callback:
-flow.onCalculated(function (direction) {
-    // direction is an object which describes current flow:
-    // direction.u, direction.v {floats} general flow vector
-    // direction.zones {Array} is a collection of flowZones.
-    // Each flow zone describes optical flow direction inside of it.
-    // flowZone : {
-    //  x, y // zone center
-    //  u, v // vector of flow in the zone
-    // }
-});
+npm run build
+```
 
-// Starts capturing the flow from webcamera:
+4. Build and run the demo game :
+```javascript
+npm run demo
+```
+
+----
+## Usage
+
+To detect flow from `<video>` element:
+```javascript
+var flow = new oflow.VideoFlow(videoDomElement);
+```
+Where `videoDomElement` is a handle to a dom *video* element.
+
+Then: 
+```javascript
+flow.onCalculated(function (direction) {
+    // Implement the callback...
+});
+```
+Where `direction` is a javascript object of the form:
+```javascript
+
+    {
+      u: [float] // general flow vector horizontal component
+      v: [float] // general flow vector vertical component
+      zones: [
+          { x, y, u, v },
+          { x, y, u, v },
+          ...
+      ]
+    }
+
+```
+and
+```
+// starts the video capture
 flow.startCapture();
 
-// once you are done capturing call
+// stops capture
 flow.stopCapture();
 ```
 
-To detect flow from `<video>` element:
+____
+## Resources
 
-```javascript
-var flow = new oflow.VideoFlow(videoDomElement);
-// the remaining API is the same as in the WebCamFlow example above.
-```
-
-```videoDomElement``` is required argument.
+1. [Lucas-Kanade method for optical flow estimation](http://en.wikipedia.org/wiki/Lucas%E2%80%93Kanade_method) . 
