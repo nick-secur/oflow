@@ -31,9 +31,9 @@
             sceneHeight = canvas.height,
             flowCanvas = document.getElementById('flow-vector');
 
-        var videoFlow = new oflow.VideoFlow( videoElement, zoneSize );
+        var filteredFlow = new oflow.FilteredFlow( videoElement, zoneSize );
 
-        videoFlow.onCalculated( function (direction) {
+        filteredFlow.onCalculated( function (direction, filteredVideoData) {
 
             /**
              * render zones as vectors...
@@ -89,23 +89,28 @@
                 flowVectorCtx.strokeStyle =  getDirectionalColor(direction.u, direction.v);
                 flowVectorCtx.beginPath();
                 flowVectorCtx.moveTo( origin.x, origin.y );
-                flowVectorCtx.lineTo( (origin.x - (100 * direction.u) ), (origin.y + (100* direction.v)) );
+                flowVectorCtx.lineTo( (origin.x + (100 * direction.u) ), (origin.y + (100 * direction.v)) );
                 flowVectorCtx.stroke();
             }
 
             sceneCtx.clearRect(0, 0, sceneWidth, sceneHeight);
             // TODO: RESUME HERE APPLY DENOISE FILTER
             // get video frame data as image object
-            sceneCtx.drawImage( videoElement, 0, 0 );
-            let srcData = sceneCtx.getImageData(0, 0, sceneWidth, sceneHeight);
-            let destData = sceneCtx.getImageData(0, 0, sceneWidth, sceneHeight);
-            oflow.RsImageFilters.denoise( srcData, destData, sceneWidth, sceneHeight, 4 );
-            sceneCtx.putImageData(destData, 0, 0);
+            // sceneCtx.drawImage( videoElement, 0, 0 );
+
+            // let srcData = sceneCtx.getImageData(0, 0, sceneWidth, sceneHeight);
+            // let destData = sceneCtx.getImageData(0, 0, sceneWidth, sceneHeight);
+            // oflow.RsImageFilters.denoise( srcData, destData, sceneWidth, sceneHeight, 4 );
+
+            if( filteredVideoData && filteredVideoData.data ) {
+                sceneCtx.putImageData(filteredVideoData, 0, 0);
+            }
+
 
             renderZonesAsVectors();
             renderFlowVector();
         });
-        videoFlow.startCapture();
+        filteredFlow.startCapture();
     }
     </script>
 </head>
@@ -125,7 +130,7 @@
                width=384
                height=288
 
-               src="./video/powder_test_01_7gSaltInBagInEnv.mp4"
+               src="./video/pt_02.mp4"
 
                controls=true
         ></video>
