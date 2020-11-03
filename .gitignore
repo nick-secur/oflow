@@ -4,6 +4,11 @@ node_modules
 **/.DS_Store
 
 demo/ms-off-demo/video/LotteThatSilhouetteGirl_1920x1080_Clip01.mp4
+demo/ms-off-demo/video/powder_test_01_7gSaltInBagInEnv.avi
+demo/ms-off-demo/video/pt_02.avi
+demo/ms-off-demo/video/zzbaseline-scaled.mp4
+demo/ms-off-demo/video/zzbaseline.mp4
+
 **/build
 **/dist
 

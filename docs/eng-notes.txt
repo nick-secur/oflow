@@ -39,6 +39,10 @@ NEXT STEPS
 
 2. PHASE TWO: more senstive motion algorithms (look for lucas kanade with pyramids) ...
 
+3. IMPORTANT Get a baseline video showing pencil moving across screen in one or two directions...
+
+4. Also get denoised video ... ?
+
 
 COMPELLING VIDEOS
 
