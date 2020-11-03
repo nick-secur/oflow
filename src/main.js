@@ -3,5 +3,6 @@ module.exports = {
   VideoFlow: require('./videoFlow'),
   CanvasFlow: require('./canvasFlow'),
   FlowZone: require('./flowZone'),
-  FlowCalculator: require('./flowCalculator')
+  FlowCalculator: require('./flowCalculator'),
+  RsImageFilters: require( './rsImagefilters' )
 };

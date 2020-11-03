@@ -50,3 +50,23 @@ COMPELLING VIDEOS
 
 3. ...
 
+====
+NOTES ON RAW PIXEL PROCESSING IN REAL TIME VIDEO ...
+
+You won't get any raw access to video data without blitting a video frame on <canvas> first. However, I believe this operation should be HW accelerated as it happens all in GPU memory. Downloading pixels down from GPU manipulating them in Javascript and then uploading back to the display memory might be the slowest step for high resolution.
+
+SEE:
+
+1. Mozilla example of real-time video filterin
+  https://media.prod.mdn.mozit.cloud/samples/video/chroma-key/index.xhtml
+
+2. Question re: getting raw pixel data from html5 video...
+  https://stackoverflow.com/questions/12130475/get-raw-pixel-data-from-html5-video
+
+
+====
+On Garbage
+
+  https://www.scirra.com/blog/76/how-to-write-low-garbage-real-time-javascript
+
+

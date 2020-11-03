@@ -93,9 +93,27 @@
                 flowVectorCtx.stroke();
             }
 
+
             sceneCtx.clearRect(0, 0, sceneWidth, sceneHeight);
             // render zones
             // renderZonesAsPixels();
+
+            // TODO: RESUME HERE APPLY DENOISE FILTER
+
+            // get video frame data as image object
+            sceneCtx.drawImage( videoElement, 0, 0 );
+
+            //let height = this.imageOjbects.height;
+            //let width = this.imageOjbects.width;
+            //this.state.ctx.drawImage(this.imageOjbects, 0, 0, width, height);
+
+            let srcData = sceneCtx.getImageData(0, 0, sceneWidth, sceneHeight);
+            let destData = sceneCtx.getImageData(0, 0, sceneWidth, sceneHeight);
+
+            oflow.RsImageFilters.denoise( srcData, destData, sceneWidth, sceneHeight, 4 );
+
+            sceneCtx.putImageData(destData, 0, 0);
+
             renderZonesAsVectors();
             renderFlowVector();
         });
