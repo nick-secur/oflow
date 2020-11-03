@@ -61,7 +61,9 @@ function FilteredFlow(defaultVideoTag, zoneSize) {
 
                 let srcData = ctx.getImageData(0, 0, width, height);
                 destData = ctx.getImageData(0, 0, width, height);
-                // RsImageFilters.denoise( srcData, destData, width, height, 4 );
+
+                // todo: uncomment and rebuild to apply filter...
+                 RsImageFilters.denoise( srcData, destData, width, height, 4 );
 
                 return destData.data;
 

@@ -4,6 +4,10 @@ Commands
 ffmpeg convert avi to mp4
   ffmpeg -i pt_02.avi pt_02.mp4
 
+----
+ffmpeg scaling
+  ffmpeg -i zzbaseline.mp4 -vf scale=384:288 zzbaseline-scaled.mp4
+
 
 ====
 Resources
@@ -11,3 +15,5 @@ Resources
 FFMPEG convert avi to mp4
   https://unix.stackexchange.com/questions/35746/encode-with-ffmpeg-using-avi-to-mp4
 
+ffmpeg scaling
+  https://trac.ffmpeg.org/wiki/Scaling
