@@ -31,9 +31,9 @@
             sceneHeight = canvas.height,
             flowCanvas = document.getElementById('flow-vector');
 
-        var filteredFlow = new oflow.FilteredFlow( videoElement, zoneSize );
+        var videoFlow = new oflow.VideoFlow( videoElement, zoneSize );
 
-        filteredFlow.onCalculated( function (direction, filteredVideoData) {
+        videoFlow.onCalculated( function (direction) {
 
             /**
              * render zones as vectors...
@@ -94,23 +94,12 @@
             }
 
             sceneCtx.clearRect(0, 0, sceneWidth, sceneHeight);
-            // TODO: RESUME HERE APPLY DENOISE FILTER
-            // get video frame data as image object
-            // sceneCtx.drawImage( videoElement, 0, 0 );
-
-            // let srcData = sceneCtx.getImageData(0, 0, sceneWidth, sceneHeight);
-            // let destData = sceneCtx.getImageData(0, 0, sceneWidth, sceneHeight);
-            // oflow.RsImageFilters.denoise( srcData, destData, sceneWidth, sceneHeight, 4 );
-
-            if( filteredVideoData && filteredVideoData.data ) {
-                sceneCtx.putImageData(filteredVideoData, 0, 0);
-            }
-
-
+            // render zones
+            // renderZonesAsPixels();
             renderZonesAsVectors();
             renderFlowVector();
         });
-        filteredFlow.startCapture();
+        videoFlow.startCapture();
     }
     </script>
 </head>
